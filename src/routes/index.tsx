@@ -72,7 +72,7 @@ function Index() {
     f(); window.addEventListener("scroll", f);
     return () => window.removeEventListener("scroll", f);
   }, []);
-  const links = [["About", "#about"], ["Tours", "#tours"], ["Instagram", "#instagram"]];
+  const links = [["About", "#about"], ["Tours", "#tours"], ["Plan Trip", "#plan"], ["Instagram", "#instagram"]];
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
