@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-import zak from "@/assets/zak.jpg";
+import zakReal from "@/assets/zak-real.png.asset.json";
 import trek from "@/assets/trek.jpg";
 import horse from "@/assets/horse.jpg";
 import city from "@/assets/city.jpg";
@@ -32,7 +32,13 @@ const tours = [
   { img: city, title: "Bishkek & Culture Day", days: "1 day", group: "1–10", place: "Bishkek", desc: "Bazaars, Soviet mosaics, felt-making and a home-cooked beshbarmak feast." },
 ];
 
-const gallery = [hero, canyon, trek, horse, city, zak];
+const gallery = [hero, canyon, trek, horse, city];
+
+const igPosts = [
+  { id: "Dd1s6tKobKT", type: "reel", url: "https://www.instagram.com/reels/Dd1s6tKobKT/" },
+  { id: "DdRbGheROh7", type: "p", url: "https://www.instagram.com/p/DdRbGheROh7/" },
+  { id: "DbGmNnPIIhW", type: "p", url: "https://www.instagram.com/p/DbGmNnPIIhW/" },
+];
 
 function Btn({ href, children, variant = "primary" }: { href: string; children: React.ReactNode; variant?: "primary" | "ghost" | "dark" }) {
   const styles = {
