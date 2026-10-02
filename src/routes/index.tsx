@@ -32,7 +32,6 @@ const tours = [
   { img: city, title: "Bishkek & Culture Day", days: "1 day", group: "1–10", place: "Bishkek", desc: "Bazaars, Soviet mosaics, felt-making and a home-cooked beshbarmak feast." },
 ];
 
-const gallery = [hero, canyon, trek, horse, city];
 
 const igPosts = [
   { id: "Dd1s6tKobKT", type: "reel", url: "https://www.instagram.com/reels/Dd1s6tKobKT/" },
