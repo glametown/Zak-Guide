@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X } from "lucide-react";
+import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import zakReal from "@/assets/zak-real.png.asset.json";
 import trek from "@/assets/trek.jpg";
@@ -37,6 +37,17 @@ const igPosts = [
   { id: "Dd1s6tKobKT", type: "reel", url: "https://www.instagram.com/reels/Dd1s6tKobKT/" },
   { id: "DdRbGheROh7", type: "p", url: "https://www.instagram.com/p/DdRbGheROh7/" },
   { id: "DbGmNnPIIhW", type: "p", url: "https://www.instagram.com/p/DbGmNnPIIhW/" },
+];
+
+const places = [
+  { name: "Song-Kul Lake", days: "1–2 days", min: 1, note: "High-altitude yurt stays & horseback riding" },
+  { name: "Ala-Kul Lake Trek", days: "2–3 days", min: 2, note: "3,900 m pass — steep, rocky trails" },
+  { name: "Karakol & Jeti-Oguz", days: "1–2 days", min: 1, note: "Red rock valleys & hot springs" },
+  { name: "Issyk-Kul South Shore", days: "1 day", min: 1, note: "Canyons, eagle hunters & beaches" },
+  { name: "Tash Rabat Caravanserai", days: "1 day", min: 1, note: "Silk Road stone fortress near the China border" },
+  { name: "Kel-Suu Lake", days: "2 days", min: 2, note: "Remote 4x4-only road — truly wild" },
+  { name: "Bishkek & Ala-Archa", days: "1 day", min: 1, note: "City culture + alpine gorge day hike" },
+  { name: "Arslanbob Walnut Forest", days: "1–2 days", min: 1, note: "World's largest walnut forest & waterfalls" },
 ];
 
 function Btn({ href, children, variant = "primary" }: { href: string; children: React.ReactNode; variant?: "primary" | "ghost" | "dark" }) {
