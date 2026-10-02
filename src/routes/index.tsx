@@ -106,7 +106,7 @@ function Index() {
       {/* About */}
       <section id="about" className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 md:grid-cols-2 md:py-32">
         <div className="relative">
-          <img src={zak} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
+          <img src={zakReal.url} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
           <div className="absolute -bottom-6 -right-2 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xl md:-right-6">
             <p className="font-display text-3xl font-black">10+</p>
             <p className="text-xs uppercase tracking-widest opacity-80">years guiding</p>
@@ -169,17 +169,25 @@ function Index() {
           </div>
           <Btn href={IG} variant="dark"><Instagram className="h-4 w-4" /> Follow @zak.guide</Btn>
         </div>
-        <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-          {gallery.map((g, i) => (
-            <a key={i} href={IG} target="_blank" rel="noopener noreferrer"
-              className={`group relative overflow-hidden rounded-2xl ${i === 0 ? "col-span-2 row-span-2" : ""}`}>
-              <img src={g} alt="Kyrgyzstan adventure post on Instagram" loading="lazy" className="aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 flex items-center justify-center bg-overlay/0 transition group-hover:bg-overlay/50">
-                <Instagram className="h-8 w-8 text-on-image opacity-0 transition group-hover:opacity-100" />
-              </div>
-            </a>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {igPosts.map((post) => (
+            <div key={post.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+              <iframe
+                src={`https://www.instagram.com/${post.type === "reel" ? "reel" : "p"}/${post.id}/embed`}
+                title="Instagram post by @zak.guide"
+                width="100%"
+                height="560"
+                frameBorder={0}
+                scrolling="no"
+                loading="lazy"
+                allowFullScreen
+              />
+            </div>
           ))}
         </div>
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          Latest reels from Zak's adventures — <a href={IG} target="_blank" rel="noopener noreferrer" className="font-semibold text-secondary underline underline-offset-4">see more on Instagram</a>
+        </p>
       </section>
 
       {/* CTA band */}
