@@ -67,6 +67,15 @@ function Btn({ href, children, variant = "primary" }: { href: string; children: 
 function Index() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [picked, setPicked] = useState<string[]>([]);
+  const [totalDays, setTotalDays] = useState(7);
+  const togglePlace = (name: string) =>
+    setPicked((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
+  const minDays = places.filter((p) => picked.includes(p.name)).reduce((s, p) => s + p.min, 0);
+  const itineraryMsg = () => {
+    const list = picked.length ? picked.map((p) => `- ${p}`).join("\n") : "(no places selected yet)";
+    return wa(`Hi Zak! I'd like a custom itinerary.\n\nPlaces:\n${list}\n\nTotal trip days: ${totalDays}\n\nPlease let me know if this is feasible with driving time!`);
+  };
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 40);
     f(); window.addEventListener("scroll", f);
@@ -167,6 +176,69 @@ function Index() {
           <p className="mt-10 text-center text-muted-foreground">
             Want something custom? <a href={wa("Hi Zak! I'd like a custom itinerary.")} target="_blank" rel="noopener noreferrer" className="font-semibold text-secondary underline underline-offset-4">Inquire about a private itinerary</a>
           </p>
+        </div>
+      </section>
+
+      {/* Custom Itinerary Builder */}
+      <section id="plan" className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-secondary">Build Your Custom Itinerary</p>
+        <h2 className="mt-3 max-w-2xl text-3xl font-extrabold text-primary sm:text-5xl">Pick your places, set your days</h2>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="flex gap-4 rounded-2xl border border-border bg-accent/50 p-5">
+            <Mountain className="mt-0.5 h-6 w-6 shrink-0 text-primary" />
+            <p className="text-sm leading-relaxed text-foreground">
+              <strong>Kyrgyz terrain is rough.</strong> Most destinations sit above 2,000 m with steep trails, river crossings and unpaved mountain roads — good footwear and a reasonable fitness level go a long way.
+            </p>
+          </div>
+          <div className="flex gap-4 rounded-2xl border border-border bg-accent/50 p-5">
+            <Car className="mt-0.5 h-6 w-6 shrink-0 text-primary" />
+            <p className="text-sm leading-relaxed text-foreground">
+              <strong>Zak factors in driving time.</strong> Distances in the mountains are long — he'll review your picks and tell you honestly whether your plan is feasible, and adjust it if needed.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {places.map((p) => {
+            const active = picked.includes(p.name);
+            return (
+              <button key={p.name} onClick={() => togglePlace(p.name)}
+                className={`relative rounded-2xl border p-5 text-left transition ${active ? "border-secondary bg-secondary/10 shadow-md" : "border-border bg-card hover:border-secondary/50"}`}>
+                <span className={`absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full border ${active ? "border-secondary bg-secondary text-secondary-foreground" : "border-border"}`}>
+                  {active && <Check className="h-4 w-4" />}
+                </span>
+                <h3 className="pr-8 font-bold text-primary">{p.name}</h3>
+                <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-secondary"><Clock className="h-3.5 w-3.5" /> {p.days}</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{p.note}</p>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 rounded-3xl bg-card p-6 shadow-sm md:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <label htmlFor="days" className="text-sm font-semibold text-primary">How many days do you have?</label>
+              <div className="mt-2 flex items-center gap-4">
+                <input id="days" type="range" min={1} max={21} value={totalDays} onChange={(e) => setTotalDays(Number(e.target.value))} className="w-48 accent-secondary" />
+                <span className="font-display text-2xl font-black text-primary">{totalDays} <span className="text-sm font-medium text-muted-foreground">days</span></span>
+              </div>
+              {picked.length > 0 && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Your picks need at least <strong className="text-primary">~{minDays} days</strong> on the ground
+                  {totalDays < minDays
+                    ? <span className="text-destructive"> — tight! Zak will suggest what to trim or extend.</span>
+                    : <span className="text-secondary"> — looking feasible, pending driving time.</span>}
+                </p>
+              )}
+            </div>
+            <a href={itineraryMsg()} target="_blank" rel="noopener noreferrer"
+              className={`inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold transition ${picked.length ? "bg-secondary text-secondary-foreground shadow-lg shadow-secondary/30 hover:brightness-110" : "pointer-events-none bg-muted text-muted-foreground"}`}>
+              <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
+            </a>
+          </div>
+          {picked.length === 0 && <p className="mt-3 text-xs text-muted-foreground">Select at least one place above to send your plan.</p>}
         </div>
       </section>
 
