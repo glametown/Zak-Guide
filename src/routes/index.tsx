@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-import zakReal from "@/assets/zak-real.png.asset.json";
+import zakProfile from "@/assets/zak-profile.jpg.asset.json";
+import gHorseback from "@/assets/zak-horseback.jpg.asset.json";
+import gHotSprings from "@/assets/zak-hot-springs.jpg.asset.json";
+import gGuests from "@/assets/zak-with-guests.jpg.asset.json";
+import gSaryChelek from "@/assets/zak-sary-chelek.jpg.asset.json";
+import gRedCanyon from "@/assets/zak-red-canyon.jpg.asset.json";
+import gBike from "@/assets/zak-bishkek-bike.jpg.asset.json";
+import gKelsuu from "@/assets/zak-kel-suu.webp.asset.json";
+import gFelt from "@/assets/zak-felt-workshop.jpg.asset.json";
 import trek from "@/assets/trek.jpg";
 import horse from "@/assets/horse.jpg";
 import city from "@/assets/city.jpg";
@@ -41,13 +49,26 @@ const igPosts = [
 
 const places = [
   { name: "Song-Kul Lake", days: "1–2 days", min: 1, note: "High-altitude yurt stays & horseback riding" },
-  { name: "Ala-Kul Lake Trek", days: "2–3 days", min: 2, note: "3,900 m pass — steep, rocky trails" },
+  { name: "Ala-Kul Lake Trek", days: "5+ days (from Bishkek)", min: 5, note: "3,900 m pass — steep, rocky trails" },
   { name: "Karakol & Jeti-Oguz", days: "1–2 days", min: 1, note: "Red rock valleys & hot springs" },
-  { name: "Issyk-Kul South Shore", days: "1 day", min: 1, note: "Canyons, eagle hunters & beaches" },
-  { name: "Tash Rabat Caravanserai", days: "1 day", min: 1, note: "Silk Road stone fortress near the China border" },
-  { name: "Kel-Suu Lake", days: "2 days", min: 2, note: "Remote 4x4-only road — truly wild" },
+  { name: "Issyk-Kul South Shore", days: "2–3 days", min: 2, note: "Canyons, eagle hunters & beaches" },
+  { name: "Tash Rabat Caravanserai", days: "2–3 days", min: 2, note: "Silk Road stone fortress near the China border" },
+  { name: "Kel-Suu Lake", days: "3–4 days", min: 3, note: "Remote 4x4-only road — truly wild" },
   { name: "Bishkek & Ala-Archa", days: "1 day", min: 1, note: "City culture + alpine gorge day hike" },
-  { name: "Arslanbob Walnut Forest", days: "1–2 days", min: 1, note: "World's largest walnut forest & waterfalls" },
+  { name: "Arslanbob Walnut Forest", days: "3–4 days", min: 3, note: "World's largest walnut forest & waterfalls" },
+  { name: "Sary-Chelek Lakes", days: "3–4 days", min: 3, note: "Turquoise lakes & wildflower meadows in the west" },
+  { name: "Shar Waterfall", days: "3–4 days", min: 3, note: "Central Asia's biggest cascade — ~400 m, Naryn region" },
+];
+
+const gallery = [
+  { src: gHorseback.url, alt: "Zak riding a horse across the high pastures above Naryn" },
+  { src: gKelsuu.url, alt: "Boat trip with guests on the turquoise water of Kel-Suu lake" },
+  { src: gRedCanyon.url, alt: "Zak resting among the red rock canyons of Skazka" },
+  { src: gSaryChelek.url, alt: "Zak leading a horseback ride above Sary-Chelek lake" },
+  { src: gHotSprings.url, alt: "Zak swimming in a hot spring beneath snow-capped peaks" },
+  { src: gGuests.url, alt: "Zak and a happy guest overlooking a river valley" },
+  { src: gBike.url, alt: "Zak cycling above Bishkek with the Kyrgyz flag" },
+  { src: gFelt.url, alt: "Zak trying on traditional Kyrgyz felt clothing" },
 ];
 
 function Btn({ href, children, variant = "primary" }: { href: string; children: React.ReactNode; variant?: "primary" | "ghost" | "dark" }) {
@@ -81,7 +102,7 @@ function Index() {
     f(); window.addEventListener("scroll", f);
     return () => window.removeEventListener("scroll", f);
   }, []);
-  const links = [["About", "#about"], ["Tours", "#tours"], ["Plan Trip", "#plan"], ["Instagram", "#instagram"]];
+  const links = [["About", "#about"], ["Tours", "#tours"], ["Gallery", "#gallery"], ["Plan Trip", "#plan"], ["Instagram", "#instagram"]];
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
@@ -125,9 +146,9 @@ function Index() {
       {/* About */}
       <section id="about" className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 md:grid-cols-2 md:py-32">
         <div className="relative">
-          <img src={zakReal.url} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
+          <img src={zakProfile.url} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
           <div className="absolute -bottom-6 -right-2 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xl md:-right-6">
-            <p className="font-display text-3xl font-black">10+</p>
+            <p className="font-display text-3xl font-black">8+</p>
             <p className="text-xs uppercase tracking-widest opacity-80">years guiding</p>
           </div>
         </div>
@@ -141,7 +162,7 @@ function Index() {
             Every trip is personal — I handle transport, permits, homestays and meals so you can simply soak in the landscapes, the horses, the tea and the stories.
           </p>
           <div className="mt-8 grid grid-cols-3 gap-4 border-t border-border pt-6 text-center">
-            {[["500+", "Happy guests"], ["EN · RU · KG", "Languages"], ["24/7", "On WhatsApp"]].map(([a, b]) => (
+            {[["500+", "Happy guests"], ["EN · RU · KG · TR", "Languages"], ["24/7", "On WhatsApp"]].map(([a, b]) => (
               <div key={b}><p className="font-display text-lg font-extrabold text-primary">{a}</p><p className="text-xs text-muted-foreground">{b}</p></div>
             ))}
           </div>
@@ -176,6 +197,19 @@ function Index() {
           <p className="mt-10 text-center text-muted-foreground">
             Want something custom? <a href={wa("Hi Zak! I'd like a custom itinerary.")} target="_blank" rel="noopener noreferrer" className="font-semibold text-secondary underline underline-offset-4">Inquire about a private itinerary</a>
           </p>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section id="gallery" className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-secondary">Out on the Trail</p>
+        <h2 className="mt-3 max-w-2xl text-3xl font-extrabold text-primary sm:text-5xl">Zak in action</h2>
+        <div className="mt-12 columns-2 gap-4 md:columns-3">
+          {gallery.map((g) => (
+            <figure key={g.alt} className="mb-4 overflow-hidden rounded-3xl shadow-sm">
+              <img src={g.src} alt={g.alt} loading="lazy" className="w-full object-cover" />
+            </figure>
+          ))}
         </div>
       </section>
 
