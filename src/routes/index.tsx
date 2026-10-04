@@ -254,6 +254,37 @@ function Index() {
               </article>
             ))}
           </div>
+          {/* Fixed-day packages */}
+          <div className="mt-20 border-t border-border pt-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-secondary">Fixed-Day Packages</p>
+            <h3 className="mt-3 max-w-2xl text-2xl font-extrabold text-primary sm:text-4xl">Ready-made routes, proven on the road</h3>
+            <p className="mt-4 max-w-2xl text-muted-foreground">These 7, 9 and 11-day circuits are timed so the driving never eats your trip — every leg is a distance Zak runs regularly.</p>
+            <div className="mt-12 grid gap-8 lg:grid-cols-3">
+              {packages.map((pkg) => (
+                <article key={pkg.title} className="group flex flex-col overflow-hidden rounded-3xl bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                  <div className="relative overflow-hidden">
+                    <img src={pkg.img} alt={pkg.alt} loading="lazy" width={1024} height={768} className="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-105" />
+                    <span className="absolute left-4 top-4 rounded-full bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground">{pkg.days}</span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h4 className="text-xl font-bold text-primary">{pkg.title}</h4>
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-secondary">{pkg.route}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pkg.desc}</p>
+                    <ol className="mt-4 flex-1 space-y-1.5 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
+                      {pkg.itinerary.map((d) => <li key={d}>{d}</li>)}
+                    </ol>
+                    <div className="mt-6">
+                      <Btn href={wa(`Hi Zak! I'm interested in the ${pkg.days} "${pkg.title}" package.`)}>
+                        <MessageCircle className="h-4 w-4" /> Reserve This Route
+                      </Btn>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="mt-6 text-xs text-muted-foreground">Dates flexible — packages can shift a day either way to fit your flights.</p>
+          </div>
+
           <p className="mt-10 text-center text-muted-foreground">
             Want something custom? <a href={wa("Hi Zak! I'd like a custom itinerary.")} target="_blank" rel="noopener noreferrer" className="font-semibold text-secondary underline underline-offset-4">Inquire about a private itinerary</a>
           </p>
