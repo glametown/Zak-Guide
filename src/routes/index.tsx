@@ -35,9 +35,69 @@ export const Route = createFileRoute("/")({
 });
 
 const tours = [
-  { img: trek, title: "Ala-Kul Lake Trek", days: "3 days", group: "2–8", place: "Karakol", desc: "Cross a 3,900 m pass to the turquoise jewel of the Tian Shan, camping under endless stars." },
-  { img: horse, title: "Song-Kul by Horseback", days: "4 days", group: "2–6", place: "Naryn", desc: "Ride with nomad herders across high pastures and sleep in a traditional family yurt." },
+  { img: trek, title: "Ala-Kul Lake Trek", days: "5 days", group: "2–8", place: "Karakol", desc: "Cross a 3,900 m pass to the turquoise jewel of the Tian Shan, camping under endless stars." },
+  { img: horse, title: "Song-Kul by Horseback", days: "3–4 days", group: "2–6", place: "Naryn", desc: "Ride with nomad herders across high pastures and sleep in a traditional family yurt." },
   { img: city, title: "Bishkek & Culture Day", days: "1 day", group: "1–10", place: "Bishkek", desc: "Bazaars, Soviet mosaics, felt-making and a home-cooked beshbarmak feast." },
+];
+
+const packages = [
+  {
+    img: gKelsuu.url,
+    alt: "Zak's guests boating on Kel-Suu lake",
+    days: "7 days",
+    title: "Song-Kul & Kel-Suu Expedition",
+    route: "Bishkek → Song-Kul → Naryn → Kel-Suu → Bishkek",
+    desc: "Two of Kyrgyzstan's greatest mountain lakes — one on horseback, one reached by a wild 4x4 track. The perfect first expedition into the Naryn highlands.",
+    itinerary: [
+      "Day 1 — Bishkek → Kochkor → Song-Kul yurt camp",
+      "Day 2 — Full day on horseback around Song-Kul",
+      "Day 3 — Over the mountains to Naryn & At-Bashi",
+      "Day 4 — 4x4 track to remote Kel-Suu lake",
+      "Day 5 — Hike the Kel-Suu canyon shoreline",
+      "Day 6 — Drive back through Naryn to Bishkek",
+      "Day 7 — Bishkek bazaars & departure",
+    ],
+  },
+  {
+    img: gRedCanyon.url,
+    alt: "Zak resting among the red rocks of Skazka canyon on Issyk-Kul's south shore",
+    days: "9 days",
+    title: "Issyk-Kul Grand Circle",
+    route: "Bishkek → Song-Kul → South Shore → Karakol → Altyn-Arashan → North Shore → Bishkek",
+    desc: "The full loop around the 'Pearl of Kyrgyzstan' — nomad lakes, fairy-tale canyons, hot springs and alpine valleys, all in one seamless circuit.",
+    itinerary: [
+      "Day 1 — Bishkek → Song-Kul yurt camp",
+      "Day 2 — Horseback day on the summer pastures",
+      "Day 3 — Song-Kul → Skazka canyon on the south shore",
+      "Day 4 — South shore: eagle hunters, Barskoon gorge & beaches",
+      "Day 5 — Karakol: Dungan mosque, Trinity Cathedral & bazaar",
+      "Day 6 — Trek into Altyn-Arashan hot-spring valley",
+      "Day 7 — Jeti-Oguz red cliffs & Ak-Suu valley",
+      "Day 8 — North shore: Cholpon-At petroglyphs → Bishkek",
+      "Day 9 — Bishkek city & Ala-Archa gorge, departure",
+    ],
+  },
+  {
+    img: gHotSprings.url,
+    alt: "Zak swimming in a hot spring beneath snow-capped peaks",
+    days: "11 days",
+    title: "Grand Tian Shan Traverse",
+    route: "Bishkek → Song-Kul → Tash Rabat → Kel-Suu → Issyk-Kul → Altyn-Arashan → Bishkek",
+    desc: "The complete journey: Silk Road caravanserais, remote Kel-Suu, the full Issyk-Kul circle and hot-spring valleys — Kyrgyzstan with nothing left out.",
+    itinerary: [
+      "Day 1 — Bishkek → Song-Kul yurt camp",
+      "Day 2 — Horseback day around Song-Kul",
+      "Day 3 — Song-Kul → Tash Rabat caravanserai",
+      "Day 4 — At-Bashi valley → Kel-Suu by 4x4",
+      "Day 5 — Hike & boat beneath Kel-Suu's cliffs",
+      "Day 6 — Naryn → Skazka canyon, south shore",
+      "Day 7 — Karakol & Jeti-Oguz red valleys",
+      "Day 8 — Altyn-Arashan hot springs trek",
+      "Day 9 — Ala-Kul lake trail — high pass day",
+      "Day 10 — North shore lakeside → Bishkek",
+      "Day 11 — Bishkek bazaar & Osh departure",
+    ],
+  },
 ];
 
 
