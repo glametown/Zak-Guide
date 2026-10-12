@@ -300,7 +300,7 @@ function Index() {
                     <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />{t.group} people</span>
                   </div>
                   <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{t.desc}</p>
-                  <div className="mt-6"><Btn href={wa(`Hi Zak! I'd like to book the "${t.title}" tour.`)}>Book This Tour</Btn></div>
+                  <div className="mt-6"><DateBtn msg={`Hi Zak! I'd like to book the "${t.title}" tour.`} days={parseInt(t.days)}>Book This Tour</DateBtn></div>
                 </div>
               </article>
             ))}
@@ -309,7 +309,7 @@ function Index() {
           <div className="mt-20 border-t border-border pt-16">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-secondary">Fixed-Day Packages</p>
             <h3 className="mt-3 max-w-2xl text-2xl font-extrabold text-primary sm:text-4xl">Ready-made routes, proven on the road</h3>
-            <p className="mt-4 max-w-2xl text-muted-foreground">These 7, 9 and 11-day circuits are timed so the driving never eats your trip — every leg is a distance Zak runs regularly.</p>
+            <p className="mt-4 max-w-2xl text-muted-foreground">These 7, 10 and 14-day circuits are timed so the driving never eats your trip — every leg is a distance Zak runs regularly.</p>
             <div className="mt-12 grid gap-8 lg:grid-cols-3">
               {packages.map((pkg) => (
                 <article key={pkg.title} className="group flex flex-col overflow-hidden rounded-3xl bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -325,9 +325,9 @@ function Index() {
                       {pkg.itinerary.map((d) => <li key={d}>{d}</li>)}
                     </ol>
                     <div className="mt-6">
-                      <Btn href={wa(`Hi Zak! I'm interested in the ${pkg.days} "${pkg.title}" package.`)}>
+                      <DateBtn msg={`Hi Zak! I'm interested in the ${pkg.days} "${pkg.title}" package.`} days={parseInt(pkg.days)}>
                         <MessageCircle className="h-4 w-4" /> Reserve This Route
-                      </Btn>
+                      </DateBtn>
                     </div>
                   </div>
                 </article>
@@ -409,10 +409,15 @@ function Index() {
                 </p>
               )}
             </div>
-            <a href={itineraryMsg()} target="_blank" rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold transition ${picked.length ? "bg-secondary text-secondary-foreground shadow-lg shadow-secondary/30 hover:brightness-110" : "pointer-events-none bg-muted text-muted-foreground"}`}>
-              <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
-            </a>
+            {picked.length ? (
+              <DateBtn msg={itineraryMsgText()} days={totalDays} className="px-8 py-4">
+                <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
+              </DateBtn>
+            ) : (
+              <span className="inline-flex items-center justify-center gap-2 rounded-full bg-muted px-8 py-4 text-sm font-semibold text-muted-foreground">
+                <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
+              </span>
+            )}
           </div>
           {picked.length === 0 && <p className="mt-3 text-xs text-muted-foreground">Select at least one place above to send your plan.</p>}
         </div>
