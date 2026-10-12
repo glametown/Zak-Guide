@@ -152,6 +152,50 @@ function Btn({ href, children, variant = "primary" }: { href: string; children: 
   );
 }
 
+/** Button that first asks for a travel start date via calendar, then opens WhatsApp with the dates included. */
+function DateBtn({ msg, days, children, variant = "primary", className = "" }: {
+  msg: string; days?: number; children: React.ReactNode; variant?: "primary" | "ghost" | "dark"; className?: string;
+}) {
+  const [date, setDate] = useState<Date>();
+  const [open, setOpen] = useState(false);
+  const styles = {
+    primary: "bg-secondary text-secondary-foreground hover:brightness-110 shadow-lg shadow-secondary/30",
+    ghost: "border border-on-image/50 text-on-image hover:bg-on-image/10",
+    dark: "bg-primary text-primary-foreground hover:brightness-125",
+  }[variant];
+  const end = date && days ? addDays(date, days - 1) : undefined;
+  const href = date
+    ? wa(`${msg}\n\nPreferred start date: ${format(date, "PPP")}${end ? `\nApprox. end date: ${format(end, "PPP")}` : ""}\n\nPlease confirm your availability!`)
+    : "#";
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button type="button"
+          className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition ${styles} ${className}`}>
+          {children}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="center">
+        <div className="border-b border-border px-4 py-3">
+          <p className="text-sm font-semibold text-primary">Pick your start date</p>
+          <p className="text-xs text-muted-foreground">So Zak can confirm his availability</p>
+        </div>
+        <Calendar mode="single" selected={date} onSelect={setDate} disabled={(d) => d < new Date()} initialFocus className="p-3 pointer-events-auto" />
+        <div className="border-t border-border p-3">
+          {date ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-4 py-2.5 text-sm font-semibold text-secondary-foreground transition hover:brightness-110">
+              <MessageCircle className="h-4 w-4" /> Send {format(date, "d MMM yyyy")}{end ? ` – ${format(end, "d MMM yyyy")}` : ""} to Zak
+            </a>
+          ) : (
+            <p className="py-1 text-center text-xs text-muted-foreground">Choose a date above to continue</p>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function Index() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
