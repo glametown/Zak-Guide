@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check } from "lucide-react";
+import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check, CalendarIcon } from "lucide-react";
+import { format, addDays } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import hero from "@/assets/hero.jpg";
 import zakProfile from "@/assets/zak-profile.jpg.asset.json";
 import gHorseback from "@/assets/zak-horseback.jpg.asset.json";
@@ -61,41 +64,45 @@ const packages = [
   {
     img: gRedCanyon.url,
     alt: "Zak resting among the red rocks of Skazka canyon on Issyk-Kul's south shore",
-    days: "9 days",
+    days: "10 days",
     title: "Issyk-Kul Grand Circle",
-    route: "Bishkek → Song-Kul → South Shore → Karakol → Altyn-Arashan → North Shore → Bishkek",
+    route: "Bishkek → Song-Kul → South Shore → Jeti-Oguz → Karakol → Altyn-Arashan → North Shore → Bishkek",
     desc: "The full loop around the 'Pearl of Kyrgyzstan' — nomad lakes, fairy-tale canyons, hot springs and alpine valleys, all in one seamless circuit.",
     itinerary: [
       "Day 1 — Bishkek → Song-Kul yurt camp",
       "Day 2 — Horseback day on the summer pastures",
-      "Day 3 — Song-Kul → Skazka canyon on the south shore",
-      "Day 4 — South shore: eagle hunters, Barskoon gorge & beaches",
-      "Day 5 — Karakol: Dungan mosque, Trinity Cathedral & bazaar",
-      "Day 6 — Trek into Altyn-Arashan hot-spring valley",
-      "Day 7 — Jeti-Oguz red cliffs & Ak-Suu valley",
-      "Day 8 — North shore: Cholpon-At petroglyphs → Bishkek",
-      "Day 9 — Bishkek city & Ala-Archa gorge, departure",
+      "Day 3 — Song-Kul → South Shore: Forgotten River & Ak-Sai Canyon",
+      "Day 4 — South Shore: eagle show, Skazka (Fairy Tale) Canyon, Barskoon Gorge waterfalls & the monument to the first human in space",
+      "Day 5 — Jeti-Oguz: Seven Bulls red cliffs, Broken Heart rock, Kok-Zhaiyk Valley & waterfall",
+      "Day 6 — Karakol: Dungan Mosque, Holy Trinity Cathedral & local bazaar",
+      "Day 7 — Trek to Altyn-Arashan Valley: hot springs & mountain scenery",
+      "Day 8 — North Shore: Semenov Gorge, Kyrchyn Valley (World Nomad Games), Grigoriev Gorge & Cholpon-Ata petroglyphs",
+      "Day 9 — North Shore → Burana Tower (10th–11th century) → Bishkek",
+      "Day 10 — Bishkek city sightseeing & Ala-Archa National Park, departure",
     ],
   },
   {
     img: gHotSprings.url,
     alt: "Zak swimming in a hot spring beneath snow-capped peaks",
-    days: "11 days",
+    days: "14 days",
     title: "Grand Tian Shan Traverse",
-    route: "Bishkek → Song-Kul → Tash Rabat → Kel-Suu → Issyk-Kul → Altyn-Arashan → Bishkek",
-    desc: "The complete journey: Silk Road caravanserais, remote Kel-Suu, the full Issyk-Kul circle and hot-spring valleys — Kyrgyzstan with nothing left out.",
+    route: "Bishkek → Song-Kul → Tash Rabat → Kel-Suu → Naryn → Issyk-Kul → Ala-Kul → North Shore → Bishkek",
+    desc: "The complete journey: Silk Road caravanserais, remote Kel-Suu, the full Issyk-Kul circle, an Ala-Kul horseback day and hot-spring valleys — Kyrgyzstan with nothing left out.",
     itinerary: [
       "Day 1 — Bishkek → Song-Kul yurt camp",
       "Day 2 — Horseback day around Song-Kul",
       "Day 3 — Song-Kul → Tash Rabat caravanserai",
       "Day 4 — At-Bashi valley → Kel-Suu by 4x4",
       "Day 5 — Hike & boat beneath Kel-Suu's cliffs",
-      "Day 6 — Naryn → Skazka canyon, south shore",
-      "Day 7 — Karakol & Jeti-Oguz red valleys",
-      "Day 8 — Altyn-Arashan hot springs trek",
-      "Day 9 — Ala-Kul lake trail — high pass day",
-      "Day 10 — North shore lakeside → Bishkek",
-      "Day 11 — Bishkek bazaar & Osh departure",
+      "Day 6 — Naryn → South Shore of Issyk-Kul: Forgotten River & Ak-Sai Canyon",
+      "Day 7 — South Shore: eagle show, Skazka (Fairy Tale) Canyon, Barskoon Gorge waterfalls & the monument to the first human in space",
+      "Day 8 — Jeti-Oguz: Seven Bulls red cliffs, Broken Heart rock, Kok-Zhaiyk Valley & waterfall",
+      "Day 9 — Karakol: Dungan Mosque, Holy Trinity Cathedral & local bazaar",
+      "Day 10 — Trek to Altyn-Arashan Valley: hot springs & mountain scenery",
+      "Day 11 — Horseback riding & hiking to Ala-Kul lake, Altyn-Arashan valley",
+      "Day 12 — North Shore: Semenov Gorge, Kyrchyn Valley (World Nomad Games), Grigoriev Gorge & Cholpon-Ata petroglyphs",
+      "Day 13 — North Shore → Burana Tower (10th–11th century) → Bishkek",
+      "Day 14 — Bishkek city sightseeing & Ala-Archa National Park, departure",
     ],
   },
 ];
@@ -145,6 +152,50 @@ function Btn({ href, children, variant = "primary" }: { href: string; children: 
   );
 }
 
+/** Button that first asks for a travel start date via calendar, then opens WhatsApp with the dates included. */
+function DateBtn({ msg, days, children, variant = "primary", className = "" }: {
+  msg: string; days?: number; children: React.ReactNode; variant?: "primary" | "ghost" | "dark"; className?: string;
+}) {
+  const [date, setDate] = useState<Date>();
+  const [open, setOpen] = useState(false);
+  const styles = {
+    primary: "bg-secondary text-secondary-foreground hover:brightness-110 shadow-lg shadow-secondary/30",
+    ghost: "border border-on-image/50 text-on-image hover:bg-on-image/10",
+    dark: "bg-primary text-primary-foreground hover:brightness-125",
+  }[variant];
+  const end = date && days ? addDays(date, days - 1) : undefined;
+  const href = date
+    ? wa(`${msg}\n\nPreferred start date: ${format(date, "PPP")}${end ? `\nApprox. end date: ${format(end, "PPP")}` : ""}\n\nPlease confirm your availability!`)
+    : "#";
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button type="button"
+          className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition ${styles} ${className}`}>
+          {children}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="center">
+        <div className="border-b border-border px-4 py-3">
+          <p className="text-sm font-semibold text-primary">Pick your start date</p>
+          <p className="text-xs text-muted-foreground">So Zak can confirm his availability</p>
+        </div>
+        <Calendar mode="single" selected={date} onSelect={setDate} disabled={(d) => d < new Date()} initialFocus className="p-3 pointer-events-auto" />
+        <div className="border-t border-border p-3">
+          {date ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-4 py-2.5 text-sm font-semibold text-secondary-foreground transition hover:brightness-110">
+              <MessageCircle className="h-4 w-4" /> Send {format(date, "d MMM yyyy")}{end ? ` – ${format(end, "d MMM yyyy")}` : ""} to Zak
+            </a>
+          ) : (
+            <p className="py-1 text-center text-xs text-muted-foreground">Choose a date above to continue</p>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function Index() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -153,9 +204,9 @@ function Index() {
   const togglePlace = (name: string) =>
     setPicked((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
   const minDays = places.filter((p) => picked.includes(p.name)).reduce((s, p) => s + p.min, 0);
-  const itineraryMsg = () => {
+  const itineraryMsgText = () => {
     const list = picked.length ? picked.map((p) => `- ${p}`).join("\n") : "(no places selected yet)";
-    return wa(`Hi Zak! I'd like a custom itinerary.\n\nPlaces:\n${list}\n\nTotal trip days: ${totalDays}\n\nPlease let me know if this is feasible with driving time!`);
+    return `Hi Zak! I'd like a custom itinerary.\n\nPlaces:\n${list}\n\nTotal trip days: ${totalDays}\n\nPlease let me know if this is feasible with driving time!`;
   };
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 40);
@@ -173,7 +224,7 @@ function Index() {
             {links.map(([l, h]) => (
               <a key={h} href={h} className={`text-sm font-medium ${scrolled ? "text-foreground" : "text-on-image"} hover:text-secondary`}>{l}</a>
             ))}
-            <Btn href={wa("Hi Zak! I'd like to book an adventure.")}>Book Now</Btn>
+            <DateBtn msg="Hi Zak! I'd like to book an adventure.">Book Now</DateBtn>
           </div>
           <button aria-label="Menu" onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? "text-foreground" : "text-on-image"}`}>
             {open ? <X /> : <Menu />}
@@ -197,7 +248,7 @@ function Index() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-on-image/85">Unforgettable, tailor-made adventures through the heart of Central Asia.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Btn href={wa("Hi Zak! I'd like to book an adventure in Kyrgyzstan.")}><MessageCircle className="h-4 w-4" /> Book Your Adventure</Btn>
+            <DateBtn msg="Hi Zak! I'd like to book an adventure in Kyrgyzstan."><MessageCircle className="h-4 w-4" /> Book Your Adventure</DateBtn>
             <Btn href="#tours" variant="ghost">Explore Tours</Btn>
           </div>
         </div>
@@ -249,7 +300,7 @@ function Index() {
                     <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />{t.group} people</span>
                   </div>
                   <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{t.desc}</p>
-                  <div className="mt-6"><Btn href={wa(`Hi Zak! I'd like to book the "${t.title}" tour.`)}>Book This Tour</Btn></div>
+                  <div className="mt-6"><DateBtn msg={`Hi Zak! I'd like to book the "${t.title}" tour.`} days={parseInt(t.days)}>Book This Tour</DateBtn></div>
                 </div>
               </article>
             ))}
@@ -258,7 +309,7 @@ function Index() {
           <div className="mt-20 border-t border-border pt-16">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-secondary">Fixed-Day Packages</p>
             <h3 className="mt-3 max-w-2xl text-2xl font-extrabold text-primary sm:text-4xl">Ready-made routes, proven on the road</h3>
-            <p className="mt-4 max-w-2xl text-muted-foreground">These 7, 9 and 11-day circuits are timed so the driving never eats your trip — every leg is a distance Zak runs regularly.</p>
+            <p className="mt-4 max-w-2xl text-muted-foreground">These 7, 10 and 14-day circuits are timed so the driving never eats your trip — every leg is a distance Zak runs regularly.</p>
             <div className="mt-12 grid gap-8 lg:grid-cols-3">
               {packages.map((pkg) => (
                 <article key={pkg.title} className="group flex flex-col overflow-hidden rounded-3xl bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -274,9 +325,9 @@ function Index() {
                       {pkg.itinerary.map((d) => <li key={d}>{d}</li>)}
                     </ol>
                     <div className="mt-6">
-                      <Btn href={wa(`Hi Zak! I'm interested in the ${pkg.days} "${pkg.title}" package.`)}>
+                      <DateBtn msg={`Hi Zak! I'm interested in the ${pkg.days} "${pkg.title}" package.`} days={parseInt(pkg.days)}>
                         <MessageCircle className="h-4 w-4" /> Reserve This Route
-                      </Btn>
+                      </DateBtn>
                     </div>
                   </div>
                 </article>
@@ -358,10 +409,15 @@ function Index() {
                 </p>
               )}
             </div>
-            <a href={itineraryMsg()} target="_blank" rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold transition ${picked.length ? "bg-secondary text-secondary-foreground shadow-lg shadow-secondary/30 hover:brightness-110" : "pointer-events-none bg-muted text-muted-foreground"}`}>
-              <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
-            </a>
+            {picked.length ? (
+              <DateBtn msg={itineraryMsgText()} days={totalDays} className="px-8 py-4">
+                <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
+              </DateBtn>
+            ) : (
+              <span className="inline-flex items-center justify-center gap-2 rounded-full bg-muted px-8 py-4 text-sm font-semibold text-muted-foreground">
+                <MessageCircle className="h-4 w-4" /> Send My Plan to Zak
+              </span>
+            )}
           </div>
           {picked.length === 0 && <p className="mt-3 text-xs text-muted-foreground">Select at least one place above to send your plan.</p>}
         </div>
@@ -424,10 +480,11 @@ function Index() {
       </footer>
 
       {/* Sticky mobile CTA */}
-      <a href={wa("Hi Zak! I'd like to book an adventure.")} target="_blank" rel="noopener noreferrer"
-        className="fixed bottom-4 left-4 right-4 z-40 flex items-center justify-center gap-2 rounded-full bg-secondary py-4 font-semibold text-secondary-foreground shadow-2xl md:hidden">
-        <MessageCircle className="h-5 w-5" /> Book Your Adventure
-      </a>
+      <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden">
+        <DateBtn msg="Hi Zak! I'd like to book an adventure." className="w-full py-4 shadow-2xl">
+          <MessageCircle className="h-5 w-5" /> Book Your Adventure
+        </DateBtn>
+      </div>
     </div>
   );
 }
