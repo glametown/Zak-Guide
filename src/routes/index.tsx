@@ -224,7 +224,7 @@ function Index() {
             {links.map(([l, h]) => (
               <a key={h} href={h} className={`text-sm font-medium ${scrolled ? "text-foreground" : "text-on-image"} hover:text-secondary`}>{l}</a>
             ))}
-            <Btn href={wa("Hi Zak! I'd like to book an adventure.")}>Book Now</Btn>
+            <DateBtn msg="Hi Zak! I'd like to book an adventure.">Book Now</DateBtn>
           </div>
           <button aria-label="Menu" onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? "text-foreground" : "text-on-image"}`}>
             {open ? <X /> : <Menu />}
@@ -248,7 +248,7 @@ function Index() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-on-image/85">Unforgettable, tailor-made adventures through the heart of Central Asia.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Btn href={wa("Hi Zak! I'd like to book an adventure in Kyrgyzstan.")}><MessageCircle className="h-4 w-4" /> Book Your Adventure</Btn>
+            <DateBtn msg="Hi Zak! I'd like to book an adventure in Kyrgyzstan."><MessageCircle className="h-4 w-4" /> Book Your Adventure</DateBtn>
             <Btn href="#tours" variant="ghost">Explore Tours</Btn>
           </div>
         </div>
@@ -480,10 +480,11 @@ function Index() {
       </footer>
 
       {/* Sticky mobile CTA */}
-      <a href={wa("Hi Zak! I'd like to book an adventure.")} target="_blank" rel="noopener noreferrer"
-        className="fixed bottom-4 left-4 right-4 z-40 flex items-center justify-center gap-2 rounded-full bg-secondary py-4 font-semibold text-secondary-foreground shadow-2xl md:hidden">
-        <MessageCircle className="h-5 w-5" /> Book Your Adventure
-      </a>
+      <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden">
+        <DateBtn msg="Hi Zak! I'd like to book an adventure." className="w-full py-4 shadow-2xl">
+          <MessageCircle className="h-5 w-5" /> Book Your Adventure
+        </DateBtn>
+      </div>
     </div>
   );
 }
