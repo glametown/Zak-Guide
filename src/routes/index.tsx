@@ -204,9 +204,9 @@ function Index() {
   const togglePlace = (name: string) =>
     setPicked((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
   const minDays = places.filter((p) => picked.includes(p.name)).reduce((s, p) => s + p.min, 0);
-  const itineraryMsg = () => {
+  const itineraryMsgText = () => {
     const list = picked.length ? picked.map((p) => `- ${p}`).join("\n") : "(no places selected yet)";
-    return wa(`Hi Zak! I'd like a custom itinerary.\n\nPlaces:\n${list}\n\nTotal trip days: ${totalDays}\n\nPlease let me know if this is feasible with driving time!`);
+    return `Hi Zak! I'd like a custom itinerary.\n\nPlaces:\n${list}\n\nTotal trip days: ${totalDays}\n\nPlease let me know if this is feasible with driving time!`;
   };
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 40);
