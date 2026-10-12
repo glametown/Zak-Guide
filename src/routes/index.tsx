@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check } from "lucide-react";
+import { Instagram, MessageCircle, MapPin, Clock, Users, Menu, X, Mountain, Car, Check, CalendarIcon } from "lucide-react";
+import { format, addDays } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import hero from "@/assets/hero.jpg";
 import zakProfile from "@/assets/zak-profile.jpg.asset.json";
 import gHorseback from "@/assets/zak-horseback.jpg.asset.json";
