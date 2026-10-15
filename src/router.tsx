@@ -8,6 +8,7 @@ export const getRouter = () => {
   return createRouter({
     routeTree,
     context: { queryClient },
+    basepath: import.meta.env.BASE_URL.replace(/\/$/, ""),
     scrollRestoration: true,
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
