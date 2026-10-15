@@ -20,16 +20,29 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
+
+      - name: Show Node and npm versions (debug)
+        run: |
+          node -v
+          npm -v
+          node -e "const fs=require('fs');try{const p=JSON.parse(fs.readFileSync('package-lock.json')); console.log('lockfileVersion', p.lockfileVersion)}catch(e){}"
+
+      - name: Clean npm cache (optional but helpful)
+        run: npm cache clean --force
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
       - name: Build static site
         run: npm run build
         env:
           GITHUB_PAGES: "true"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
