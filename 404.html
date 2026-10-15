@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zak Guide</title>
+    <script>
+      // GitHub Pages fallback for client-side routing.
+      const base = "/Zak-Guide";
+      const path = location.pathname;
+      if (path !== base && !path.startsWith(base + "/")) {
+        location.replace(base + "/" + location.search + location.hash);
+      } else {
+        location.replace(base + "/" + location.search + location.hash);
+      }
+    </script>
+  </head>
+  <body><p>Loading Zak Guide…</p></body>
+</html>

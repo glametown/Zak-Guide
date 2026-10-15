@@ -5,15 +5,15 @@ import { format, addDays } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import hero from "@/assets/hero.jpg";
-import zakProfile from "@/assets/zak-profile.jpg.asset.json";
-import gHorseback from "@/assets/zak-horseback.jpg.asset.json";
-import gHotSprings from "@/assets/zak-hot-springs.jpg.asset.json";
-import gGuests from "@/assets/zak-with-guests.jpg.asset.json";
-import gSaryChelek from "@/assets/zak-sary-chelek.jpg.asset.json";
-import gRedCanyon from "@/assets/zak-red-canyon.jpg.asset.json";
-import gBike from "@/assets/zak-bishkek-bike.jpg.asset.json";
-import gKelsuu from "@/assets/zak-kel-suu.webp.asset.json";
-import gFelt from "@/assets/zak-felt-workshop.jpg.asset.json";
+import zakProfile from "@/assets/zak.jpg";
+import gHorseback from "@/assets/horse.jpg";
+import gHotSprings from "@/assets/canyon.jpg";
+import gGuests from "@/assets/zak.jpg";
+import gSaryChelek from "@/assets/canyon.jpg";
+import gRedCanyon from "@/assets/canyon.jpg";
+import gBike from "@/assets/city.jpg";
+import gKelsuu from "@/assets/canyon.jpg";
+import gFelt from "@/assets/city.jpg";
 import trek from "@/assets/trek.jpg";
 import horse from "@/assets/horse.jpg";
 import city from "@/assets/city.jpg";
@@ -45,7 +45,7 @@ const tours = [
 
 const packages = [
   {
-    img: gKelsuu.url,
+    img: gKelsuu,
     alt: "Zak's guests boating on Kel-Suu lake",
     days: "7 days",
     title: "Song-Kul & Kel-Suu Expedition",
@@ -62,7 +62,7 @@ const packages = [
     ],
   },
   {
-    img: gRedCanyon.url,
+    img: gRedCanyon,
     alt: "Zak resting among the red rocks of Skazka canyon on Issyk-Kul's south shore",
     days: "10 days",
     title: "Issyk-Kul Grand Circle",
@@ -82,7 +82,7 @@ const packages = [
     ],
   },
   {
-    img: gHotSprings.url,
+    img: gHotSprings,
     alt: "Zak swimming in a hot spring beneath snow-capped peaks",
     days: "14 days",
     title: "Grand Tian Shan Traverse",
@@ -128,14 +128,14 @@ const places = [
 ];
 
 const gallery = [
-  { src: gHorseback.url, alt: "Zak riding a horse across the high pastures above Naryn" },
-  { src: gKelsuu.url, alt: "Boat trip with guests on the turquoise water of Kel-Suu lake" },
-  { src: gRedCanyon.url, alt: "Zak resting among the red rock canyons of Skazka" },
-  { src: gSaryChelek.url, alt: "Zak leading a horseback ride above Sary-Chelek lake" },
-  { src: gHotSprings.url, alt: "Zak swimming in a hot spring beneath snow-capped peaks" },
-  { src: gGuests.url, alt: "Zak and a happy guest overlooking a river valley" },
-  { src: gBike.url, alt: "Zak cycling above Bishkek with the Kyrgyz flag" },
-  { src: gFelt.url, alt: "Zak trying on traditional Kyrgyz felt clothing" },
+  { src: gHorseback, alt: "Zak riding a horse across the high pastures above Naryn" },
+  { src: gKelsuu, alt: "Boat trip with guests on the turquoise water of Kel-Suu lake" },
+  { src: gRedCanyon, alt: "Zak resting among the red rock canyons of Skazka" },
+  { src: gSaryChelek, alt: "Zak leading a horseback ride above Sary-Chelek lake" },
+  { src: gHotSprings, alt: "Zak swimming in a hot spring beneath snow-capped peaks" },
+  { src: gGuests, alt: "Zak and a happy guest overlooking a river valley" },
+  { src: gBike, alt: "Zak cycling above Bishkek with the Kyrgyz flag" },
+  { src: gFelt, alt: "Zak trying on traditional Kyrgyz felt clothing" },
 ];
 
 function Btn({ href, children, variant = "primary" }: { href: string; children: React.ReactNode; variant?: "primary" | "ghost" | "dark" }) {
@@ -257,7 +257,7 @@ function Index() {
       {/* About */}
       <section id="about" className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 md:grid-cols-2 md:py-32">
         <div className="relative">
-          <img src={zakProfile.url} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
+          <img src={zakProfile} alt="Zak, local Kyrgyz mountain guide" loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full rounded-3xl object-cover" />
           <div className="absolute -bottom-6 -right-2 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xl md:-right-6">
             <p className="font-display text-3xl font-black">8+</p>
             <p className="text-xs uppercase tracking-widest opacity-80">years guiding</p>

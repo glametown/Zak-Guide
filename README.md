@@ -1,26 +1,26 @@
-# Pixel Perfect Replica
+# Zak Guide
 
-Implement exactly the screenshot and nothing else
+A responsive website for private tours and cultural adventures in Kyrgyzstan.
 
-This project was built with [Lovable](https://lovable.dev).
+## Local development
 
-**Live app**: https://zak-guide.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/18261b8e-5f85-4f66-9e0d-250f7ab0c349).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requirements: Node.js 22 or later and npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
+
+## Build and test
+
+```sh
+npm run build
+npm test
+npm run lint
+```
+
+The production site is a static client-side application and can be hosted on GitHub Pages. The GitHub Actions workflow builds the app and publishes the generated `dist/` directory automatically.
+
+## GitHub Pages setup
+
+In the repository, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**. The workflow in `.github/workflows/deploy-pages.yml` deploys the site from the `main` branch and can also be run manually.
