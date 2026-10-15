@@ -25,18 +25,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      - name: Show Node and npm versions (debug)
-        run: |
-          node -v
-          npm -v
-          node -e "const fs=require('fs');try{const p=JSON.parse(fs.readFileSync('package-lock.json')); console.log('lockfileVersion', p.lockfileVersion)}catch(e){}"
-
-      - name: Clean npm cache (optional but helpful)
-        run: npm cache clean --force
+          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build static site
         run: npm run build
